@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>RPG</h1>
+        
+        <div class="tabs">
+            <button class="tablink" onclick="window.openTab('CriarPersonagem')">Criar Personagem</button>
+            <button class="tablink" onclick="window.openTab('GerenciarPersonagem')">Gerenciar Personagem</button>
+            <button class="tablink" onclick="window.openTab('EditarPersonagem')">Editar Personagem</button>
+            <button class="tablink" onclick="window.openTab('Historico')">Histórico</button>
+        </div>
+
+        <div id="CriarPersonagem" class="tabcontent">
+            <h2>Criar Personagem</h2>
+            <form id="formCriarPersonagem">
+                <div>
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                
+                <div>
+                    <label for="vida">Vida:</label>
+                    <input type="number" id="vida" name="vida" required>
+                </div>
+                
+                <div>
+                    <label for="mana">Mana:</label>
+                    <input type="number" id="mana" name="mana" required>
+                </div>
+                
+                <div>
+                    <label for="defesa">Defesa:</label>
+                    <input type="number" id="defesa" name="defesa" required>
+                </div>
+                
+                <div>
+                    <label for="armadura">Armadura:</label>
+                    <input type="number" id="armadura" name="armadura" required>
+                </div>
+                
+                <div>
+                    <label for="regen">Regeneração:</label>
+                    <input type="number" id="regen" name="regen" required value="0">
+                </div>
+
+                <button type="submit">Criar Personagem</button>
+            </form>
+        </div>
+
+        <div id="GerenciarPersonagem" class="tabcontent">
+            <h2>Gerenciar Personagem</h2>
+            <div id="personagensContainer"></div>
+        </div>
+
+        <div id="EditarPersonagem" class="tabcontent">
+            <h2>Editar Personagem</h2>
+            <div id="editarPersonagemContainer"></div>
+        </div>
+
+        <div id="Historico" class="tabcontent">
+            <div class="historico-header">
+                <h2>Histórico</h2>
+                <button id="limparHistorico" class="btn-limpar-historico">🗑️</button>
+            </div>
+            <div class="search-container">
+                <input type="text" id="historicoSearchInput" placeholder="Pesquisar no histórico...">
+            </div>
+            <ul id="historicoLista"></ul>
+        </div>
+    </div>
+    
+    <!-- Formulário para confirmar limpeza do histórico -->
+    <div id="formularioLimparHistorico" class="formulario-overlay">
+        <div class="formulario-container formulario-deletar">
+            <h3>Limpar Histórico</h3>
+            <p>Tem certeza que deseja limpar todo o histórico?</p>
+            <p>Esta ação não pode ser desfeita.</p>
+            
+            <div class="formulario-botoes">
+                <button id="confirmarLimparHistorico" class="btn-confirmar">Confirmar</button>
+                <button id="cancelarLimparHistorico" class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

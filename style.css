@@ -1,0 +1,871 @@
+/* Variáveis de cores e estilos */
+:root {
+    --bg-color: #121212;
+    --bg-surface: #1e1e1e;
+    --bg-elevated: #252525;
+    --primary: #7986cb;
+    --primary-light: #aab6fe;
+    --primary-dark: #49599a;
+    --accent: #64b5f6;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --text-disabled: #6c6c6c;
+    --error: #cf6679;
+    --success: #4caf50;
+    --warning: #ff9800;
+    --border-radius: 8px;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+}
+
+/* Reset e estilos globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    padding: var(--spacing-md);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: var(--spacing-md);
+    font-weight: 500;
+}
+
+p {
+    margin-bottom: var(--spacing-sm);
+}
+
+button {
+    cursor: pointer;
+    background-color: var(--primary);
+    color: var(--text-primary);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+button:hover {
+    background-color: var(--primary-light);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    background-color: var(--bg-elevated);
+    border: 1px solid var(--text-disabled);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(121, 134, 203, 0.2);
+}
+
+/* Container principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--bg-surface);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+/* Estilos para as abas */
+.tabs {
+    display: flex;
+    background-color: var(--bg-elevated);
+    border-bottom: 1px solid var(--text-disabled);
+    overflow-x: auto;
+}
+
+.tablink {
+    background-color: transparent;
+    color: var(--text-secondary);
+    border: none;
+    outline: none;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 16px;
+    transition: var(--transition);
+    border-bottom: 2px solid transparent;
+}
+
+.tablink:hover {
+    background-color: rgba(121, 134, 203, 0.1);
+    color: var(--text-primary);
+    transform: none;
+    box-shadow: none;
+}
+
+.tablink.active {
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+    background-color: transparent;
+}
+
+/* Estilos para o conteúdo das abas */
+.tabcontent {
+    display: none;
+    padding: var(--spacing-lg);
+    animation: fadeEffect 0.5s;
+}
+
+@keyframes fadeEffect {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Formulário de criação de personagem */
+#formCriarPersonagem {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+#formCriarPersonagem label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-secondary);
+}
+
+#formCriarPersonagem button[type="submit"] {
+    grid-column: span 2;
+    background-color: var(--primary);
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+}
+
+/* Grade de personagens */
+.personagens-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .personagens-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .personagens-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    #formCriarPersonagem {
+        grid-template-columns: 1fr;
+    }
+    
+    #formCriarPersonagem button[type="submit"] {
+        grid-column: 1;
+    }
+}
+
+/* Card do personagem */
+.personagem {
+    background-color: var(--bg-elevated);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.personagem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.personagem h3 {
+    color: var(--primary);
+    border-bottom: 1px solid var(--text-disabled);
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Atributos do personagem */
+.atributos-personagem {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.atributo-label {
+    font-weight: 500;
+    display: inline-block;
+    width: 80px;
+    color: var(--text-secondary);
+}
+
+.atributo-valor {
+    font-weight: 600;
+    color: var(--primary-light);
+}
+
+/* Atributos com botões */
+.atributo-com-botoes {
+    display: flex;
+    align-items: center;
+}
+
+.atributo-com-botoes button {
+    width: 25px;
+    height: 25px;
+    min-width: 0;
+    margin: 0 var(--spacing-xs);
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    background-color: var(--primary-dark);
+}
+
+.atributo-com-botoes button:hover {
+    background-color: var(--primary);
+}
+
+.atributo-com-botoes .atributo-valor {
+    min-width: 30px;
+    text-align: center;
+}
+
+/* Botões de atributos */
+.atributo-botoes {
+    display: flex;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-xs);
+}
+
+.atributo-botoes button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--accent);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.atributo-botoes button:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Checkbox de dano verdadeiro */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-sm);
+    background-color: rgba(121, 134, 203, 0.1);
+    border-radius: var(--border-radius);
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: var(--spacing-sm);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+.checkbox-container label {
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+/* Botões de ação */
+.card-actions button {
+    margin: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--accent);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card-actions button:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Botão de deletar */
+.btn-deletar {
+    background-color: var(--error) !important;
+}
+
+.btn-deletar:hover {
+    background-color: var(--error-hover) !important;
+}
+
+/* Container de desfazer/refazer */
+.undo-redo-container {
+    display: flex;
+    gap: var(--spacing-xs);
+    flex: 2;
+}
+
+.undo-redo-container button {
+    flex: 1;
+    background-color: var(--accent);
+    border: none;
+}
+
+.undo-redo-container button:hover {
+    background-color: var(--primary-light);
+}
+
+/* Botão de resetar todos */
+.resetar-todos-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--spacing-md);
+}
+
+.btn-resetar-todos {
+    padding: var(--spacing-xs) var(--spacing-md);
+    background-color: var(--error);
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.btn-resetar-todos:hover {
+    background-color: #b55a6a;
+}
+
+/* Histórico */
+#Historico {
+    position: relative;
+}
+
+#historicoLista {
+    list-style-type: none;
+    padding: 0;
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+#historicoLista li {
+    padding: var(--spacing-sm);
+    border-bottom: 1px solid var(--text-disabled);
+}
+
+/* Botão de limpar histórico */
+#limparHistorico {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background-color: var(--error);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 14px;
+    min-width: auto;
+    width: auto;
+    margin: 0;
+}
+
+#limparHistorico:hover {
+    background-color: #b55a6a;
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Ajuste do título do histórico para não sobrepor o botão */
+#Historico h2 {
+    margin-right: 50px;
+}
+
+/* Pesquisa no histórico */
+.search-container {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    align-items: center;
+}
+
+.search-container input {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.search-container button {
+    white-space: nowrap;
+}
+
+#historicoSearchBtn {
+    background-color: var(--primary);
+}
+
+#limparPesquisa {
+    background-color: var(--warning);
+}
+
+/* Botão de reduzir mana */
+.btn-reduzir-mana {
+    background-color: var(--accent);
+    font-size: 12px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+/* Botão de regenerar mana */
+.btn-regenerar-mana {
+    background-color: var(--success);
+    font-size: 12px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+}   
+
+#historico button {
+    margin-top: var(--spacing-md);
+    background-color: var(--error);
+}
+
+#historico button:hover {
+    background-color: #b55a6a;
+}
+
+/* Botões do histórico */
+.botoes-historico {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.botoes-historico button {
+    flex: 1;
+    min-width: 120px;
+}
+
+#exportarHistorico {
+    background-color: var(--accent);
+}
+
+#exportarHistorico:hover {
+    background-color: #4a6da7;
+}
+
+#importarHistorico {
+    background-color: var(--success);
+}
+
+#importarHistorico:hover {
+    background-color: #3d8b5f;
+}
+
+/* Overlay para formulários */
+.overlay, .formulario-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Formulário de mana */
+.formulario-mana, .formulario-dano, .formulario-deletar, .formulario-vida, .formulario-armadura {
+    background-color: var(--bg-surface);
+    border: 2px solid var(--accent);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    width: 350px;
+    max-width: 90%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.formulario-mana h3, .formulario-dano h3, .formulario-deletar h3, .formulario-vida h3, .formulario-armadura h3 {
+    color: var(--accent);
+    margin-top: 0;
+    margin-bottom: var(--spacing-sm);
+    text-align: center;
+}
+
+/* Estilo específico para o formulário de dano */
+.formulario-dano {
+    border-color: var(--error);
+}
+
+.formulario-dano h3 {
+    color: var(--error);
+}
+
+/* Estilo específico para o formulário de deletar */
+.formulario-deletar {
+    border-color: var(--error);
+}
+
+.formulario-deletar h3 {
+    color: var(--error);
+}
+
+/* Estilo específico para o formulário de vida */
+.formulario-vida {
+    border-color: var(--error);
+}
+
+.formulario-vida h3 {
+    color: var(--error);
+}
+
+/* Estilo específico para o formulário de armadura */
+.formulario-armadura {
+    border-color: var(--success);
+}
+
+.formulario-armadura h3 {
+    color: var(--success);
+}
+
+.aviso-deletar {
+    color: var(--error);
+    font-weight: bold;
+    text-align: center;
+    margin: var(--spacing-md) 0;
+}
+
+/* Botões específicos */
+.btn-vida {
+    background-color: var(--error) !important;
+}
+
+.btn-vida:hover {
+    background-color: #b55a6a !important;
+}
+
+.btn-armadura {
+    background-color: var(--success) !important;
+}
+
+.btn-armadura:hover {
+    background-color: #3d8b40 !important;
+}
+
+/* Botão de mana */
+.btn-mana {
+    background-color: var(--error);
+    font-size: 12px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin-left: var(--spacing-sm);
+}
+
+/* Barras de progresso */
+.barra-progresso {
+    width: 100%;
+    height: 12px;
+    background-color: var(--bg-elevated);
+    border-radius: var(--border-radius);
+    margin-top: var(--spacing-xs);
+    position: relative;
+    overflow: hidden;
+}
+
+.barra-progresso::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.barra-vida::before {
+    background-color: var(--error);
+}
+
+.barra-mana::before {
+    background-color: var(--accent);
+}
+
+.barra-armadura::before {
+    background-color: var(--success);
+}
+
+.barra-progresso-preenchimento {
+    height: 100%;
+    transition: width 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.barra-vida .barra-progresso-preenchimento {
+    background-color: var(--error);
+}
+
+.barra-mana .barra-progresso-preenchimento {
+    background-color: var(--accent);
+}
+
+.barra-armadura .barra-progresso-preenchimento {
+    background-color: var(--success);
+}
+
+.atributo {
+    margin-bottom: var(--spacing-sm);
+}
+
+.atributo-valores {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Botões específicos */
+.btn-vida {
+    background-color: var(--error) !important;
+}
+
+.btn-vida:hover {
+    background-color: #b55a6a !important;
+}
+
+.btn-armadura {
+    background-color: var(--success) !important;
+}
+
+.btn-armadura:hover {
+    background-color: #3d8b40 !important;
+}
+
+/* Formulário de dano */
+.campo-formulario {
+    margin-bottom: var(--spacing-md);
+}
+
+.campo-formulario label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: bold;
+}
+
+.campo-formulario input[type="number"] {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--text-disabled);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-elevated);
+    color: var(--text-primary);
+}
+
+.opcoes-formulario {
+    margin-bottom: var(--spacing-md);
+}
+
+.opcao {
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+}
+
+.opcao input[type="checkbox"] {
+    margin-right: var(--spacing-sm);
+}
+
+.botoes-formulario {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-confirmar {
+    background-color: var(--success);
+    color: white;
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+.btn-cancelar {
+    background-color: var(--error);
+    color: white;
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+/* Ações do personagem */
+.acoes-personagem {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
+    width: 100%;
+}
+
+.acoes-principais {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xs);
+    width: 100%;
+}
+
+.acoes-secundarias {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xs);
+    width: 100%;
+}
+
+.acoes-secundarias button {
+    margin: 0;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.btn-principal, .btn-secundario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.btn-principal {
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.btn-secundario {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.9em;
+}
+
+/* Cores dos botões - Estado normal */
+.btn-dano, .btn-principal.btn-dano {
+    background-color: #181818ad !important;
+}
+
+.btn-turno, .btn-principal.btn-turno {
+    background-color: #181818ad !important;
+}
+
+.btn-resetar, .btn-principal.btn-resetar {
+    background-color: #181818ad !important;
+}
+
+.btn-reviver, .btn-principal.btn-reviver {
+    background-color: #181818ad !important;
+}
+
+.btn-mana, .btn-principal.btn-mana {
+    background-color: #181818ad !important;
+}
+
+.btn-deletar, .btn-principal.btn-deletar {
+    background-color: #181818ad !important;
+}
+
+.btn-desfazer, .btn-principal.btn-desfazer {
+    background-color: #181818ad !important;
+}
+
+.btn-refazer, .btn-principal.btn-refazer {
+    background-color: #181818ad !important;
+}
+
+.btn-vida, .btn-principal.btn-vida {
+    background-color: #181818ad !important;
+}
+
+.btn-armadura, .btn-principal.btn-armadura {
+    background-color: #181818ad !important;
+}
+
+/* Cores dos botões - Estado hover */
+.btn-dano:hover, .btn-principal.btn-dano:hover {
+    background-color: var(--error) !important;
+}
+
+.btn-turno:hover, .btn-principal.btn-turno:hover {
+    background-color: #9c27b0 !important;
+}
+
+.btn-resetar:hover, .btn-principal.btn-resetar:hover {
+    background-color: #ff9800 !important;
+}
+
+.btn-reviver:hover, .btn-principal.btn-reviver:hover {
+    background-color: #4caf50 !important;
+}
+
+.btn-mana:hover, .btn-principal.btn-mana:hover {
+    background-color: #2196f3 !important;
+}
+
+.btn-deletar:hover, .btn-principal.btn-deletar:hover {
+    background-color: #f44336 !important;
+}
+
+.btn-desfazer:hover, .btn-principal.btn-desfazer:hover {
+    background-color: #795548 !important;
+}
+
+.btn-refazer:hover, .btn-principal.btn-refazer:hover {
+    background-color: #607d8b !important;
+}
+
+.btn-vida:hover, .btn-principal.btn-vida:hover {
+    background-color: var(--error) !important;
+}
+
+.btn-armadura:hover, .btn-principal.btn-armadura:hover {
+    background-color: var(--success) !important;
+}
+
+/* Por padrão, o formulário de limpar histórico fica oculto */
+#formularioLimparHistorico {
+    display: none;
+}
+
+/* Botões de carga */
+.btn-carga {
+    background-color: #181818ad !important;
+    transition: background-color 0.3s ease;
+}
+
+.btn-carga:hover {
+    background-color: #ffb900e6 !important;
+    transform: translateY(0);
+    box-shadow: none;
+}
