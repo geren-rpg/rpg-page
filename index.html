@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RPG</title>
+    <title>Gerenciador de Personagens RPG</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>RPG</h1>
+        <h1>Gerenciador de Personagens RPG</h1>
         
         <div class="tabs">
             <button class="tablink" onclick="window.openTab('CriarPersonagem')">Criar Personagem</button>
@@ -41,8 +41,13 @@
                 </div>
                 
                 <div>
-                    <label for="armadura">Armadura:</label>
-                    <input type="number" id="armadura" name="armadura" required>
+                    <label for="capacidade">Capacidade (%):</label>
+                    <input type="number" id="capacidade" name="capacidade" required min="0" max="100" value="30">
+                </div>
+                
+                <div>
+                    <label for="armaduraInicial">Armadura Inicial:</label>
+                    <input type="number" id="armaduraInicial" name="armaduraInicial" required min="0" value="0">
                 </div>
                 
                 <div>

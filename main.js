@@ -59,39 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     carregarPersonagens();
     
     // Adicionar event listeners para o formulário de criação de personagem
-    document.getElementById('formCriarPersonagem').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const nome = document.getElementById('nome').value;
-        const vida = parseInt(document.getElementById('vida').value);
-        const mana = parseInt(document.getElementById('mana').value);
-        const defesa = parseInt(document.getElementById('defesa').value);
-        const armadura = parseInt(document.getElementById('armadura').value);
-        const regen = parseInt(document.getElementById('regen').value);
-        
-        const personagem = {
-            nome,
-            vida,
-            vidaInicial: vida,
-            mana,
-            manaMax: mana,
-            manaInicial: mana,
-            regen,
-            defesa,
-            armadura,
-            armaduraInicial: armadura,
-            carga: 0,
-            danoVerdadeiro: false
-        };
-
-        window.personagens.push(personagem);
-        atualizarPersonagens();
-        atualizarEdicaoPersonagens();
-        adicionarHistorico(`Personagem ${nome} criado.`);
-        salvarPersonagens();
-        
-        // Limpar formulário
-        this.reset();
-    });
+    document.getElementById('formCriarPersonagem').addEventListener('submit', criarPersonagem);
     
     // Event listeners para o formulário de limpar histórico
     document.getElementById('confirmarLimparHistorico').addEventListener('click', confirmarLimparHistorico);

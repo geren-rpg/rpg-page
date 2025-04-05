@@ -42,9 +42,10 @@ export function reviverPersonagem(index) {
     
     personagem.vida = 1;
     personagem.mana = 0;
-    personagem.armadura = 0;
+    // Recalcular armadura baseada na nova vida e capacidade
+    personagem.armadura = Math.floor(personagem.vida * (personagem.capacidade / 100));
     atualizarPersonagens();
-    adicionarHistorico(`Personagem ${personagem.nome} revivido.`);
+    adicionarHistorico(`Personagem ${personagem.nome} revivido com ${personagem.armadura} de armadura.`);
 }
 
 // Getter para o estado do dano verdadeiro de um personagem específico

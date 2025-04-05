@@ -33,13 +33,23 @@ async function carregarPersonagensDoArquivo() {
 export function criarPersonagem(event) {
     event.preventDefault();
     const nome = document.getElementById('nome').value;
-    const vida = parseInt(document.getElementById('vida').value);
-    const mana = parseInt(document.getElementById('mana').value);
-    const regen = parseInt(document.getElementById('regen').value);
-    const defesa = parseInt(document.getElementById('defesa').value);
-    const armadura = parseInt(document.getElementById('armadura').value);
+    const vida = parseInt(document.getElementById('vida').value) || 0;
+    const mana = parseInt(document.getElementById('mana').value) || 0;
+    const regen = parseInt(document.getElementById('regen').value) || 0;
+    const defesa = parseInt(document.getElementById('defesa').value) || 0;
+    const capacidade = parseInt(document.getElementById('capacidade').value) || 0;
+    const armaduraInicial = parseInt(document.getElementById('armaduraInicial').value) || 0;
+
+    // Validar valores
+    if (!nome || vida <= 0 || mana < 0) {
+        alert('Por favor, preencha todos os campos corretamente. A vida deve ser maior que 0.');
+        return;
+    }
 
     const index = window.personagens.length; // Índice do novo personagem
+    
+    // Calcular armadura baseada na capacidade (% da vida)
+    const armaduraCapacidade = Math.floor(vida * (capacidade / 100));
     
     const personagem = {
         nome,
@@ -50,8 +60,11 @@ export function criarPersonagem(event) {
         manaInicial: mana,
         regen,
         defesa,
-        armadura,
-        armaduraInicial: armadura,
+        armadura: armaduraCapacidade,
+        armaduraInicial: armaduraCapacidade,
+        armaduraFixa: armaduraInicial,
+        armaduraFixaInicial: armaduraInicial,
+        capacidade,
         carga: 0,
         danoVerdadeiro: false
     };
@@ -59,9 +72,12 @@ export function criarPersonagem(event) {
     window.personagens.push(personagem);
     atualizarPersonagens();
     atualizarEdicaoPersonagens();
-    adicionarHistorico(`Personagem ${nome} criado.`);
+    adicionarHistorico(`Personagem ${nome} criado com ${armaduraCapacidade} de armadura (${capacidade}% da vida) e ${armaduraInicial} de armadura inicial.`);
     salvarPersonagensNoArquivo(); // Salvar após criar
     event.target.reset();
+    
+    // Restaurar valor padrão da capacidade após reset
+    document.getElementById('capacidade').value = '30';
 }
 
 // Função para atualizar a lista de personagens
@@ -165,7 +181,7 @@ export function atualizarPersonagens() {
         
         body.appendChild(manaDiv);
         
-        // Armadura
+        // Armadura Inicial
         const armaduraDiv = document.createElement('div');
         armaduraDiv.className = 'atributo';
         
@@ -173,29 +189,80 @@ export function atualizarPersonagens() {
         armaduraValoresDiv.className = 'atributo-valores';
         
         const armaduraLabel = document.createElement('span');
-        armaduraLabel.textContent = '🛡️ Armadura:';
+        armaduraLabel.textContent = '🛡️ Armadura Inicial:';
         armaduraValoresDiv.appendChild(armaduraLabel);
         
         const armaduraValor = document.createElement('span');
         armaduraValor.className = 'valor';
-        armaduraValor.textContent = `${personagem.armadura}/${personagem.armaduraInicial}`;
+        armaduraValor.textContent = `${personagem.armaduraFixa}/${personagem.armaduraFixaInicial}`;
         armaduraValoresDiv.appendChild(armaduraValor);
         
         armaduraDiv.appendChild(armaduraValoresDiv);
         
-        // Barra de progresso para armadura
+        // Barra de progresso para armadura inicial
         const armaduraBarraDiv = document.createElement('div');
         armaduraBarraDiv.className = 'barra-progresso barra-armadura';
         
         const armaduraBarraPreenchimento = document.createElement('div');
         armaduraBarraPreenchimento.className = 'barra-progresso-preenchimento';
-        const armaduraPorcentagem = (personagem.armadura / personagem.armaduraInicial) * 100;
+        const armaduraPorcentagem = (personagem.armaduraFixa / personagem.armaduraFixaInicial) * 100;
         armaduraBarraPreenchimento.style.width = `${armaduraPorcentagem}%`;
         
         armaduraBarraDiv.appendChild(armaduraBarraPreenchimento);
         armaduraDiv.appendChild(armaduraBarraDiv);
         
         body.appendChild(armaduraDiv);
+        
+        // Armadura (Capacidade)
+        const armaduraCapDiv = document.createElement('div');
+        armaduraCapDiv.className = 'atributo';
+        
+        const armaduraCapValoresDiv = document.createElement('div');
+        armaduraCapValoresDiv.className = 'atributo-valores';
+        
+        const armaduraCapLabel = document.createElement('span');
+        armaduraCapLabel.textContent = '🛡️ Armadura (Capacidade):';
+        armaduraCapValoresDiv.appendChild(armaduraCapLabel);
+        
+        const armaduraCapValor = document.createElement('span');
+        armaduraCapValor.className = 'valor';
+        armaduraCapValor.textContent = `${personagem.armadura}/${personagem.armaduraInicial}`;
+        armaduraCapValoresDiv.appendChild(armaduraCapValor);
+        
+        armaduraCapDiv.appendChild(armaduraCapValoresDiv);
+        
+        // Barra de progresso para armadura de capacidade
+        const armaduraCapBarraDiv = document.createElement('div');
+        armaduraCapBarraDiv.className = 'barra-progresso barra-armadura';
+        
+        const armaduraCapBarraPreenchimento = document.createElement('div');
+        armaduraCapBarraPreenchimento.className = 'barra-progresso-preenchimento';
+        const armaduraCapPorcentagem = (personagem.armadura / personagem.armaduraInicial) * 100;
+        armaduraCapBarraPreenchimento.style.width = `${armaduraCapPorcentagem}%`;
+        
+        armaduraCapBarraDiv.appendChild(armaduraCapBarraPreenchimento);
+        armaduraCapDiv.appendChild(armaduraCapBarraDiv);
+        
+        body.appendChild(armaduraCapDiv);
+        
+        // Capacidade
+        const capacidadeDiv = document.createElement('div');
+        capacidadeDiv.className = 'atributo';
+        
+        const capacidadeValoresDiv = document.createElement('div');
+        capacidadeValoresDiv.className = 'atributo-valores';
+        
+        const capacidadeLabel = document.createElement('span');
+        capacidadeLabel.textContent = '🛡️ Capacidade:';
+        capacidadeValoresDiv.appendChild(capacidadeLabel);
+        
+        const capacidadeValor = document.createElement('span');
+        capacidadeValor.className = 'valor';
+        capacidadeValor.textContent = `${personagem.capacidade}%`;
+        capacidadeValoresDiv.appendChild(capacidadeValor);
+        
+        capacidadeDiv.appendChild(capacidadeValoresDiv);
+        body.appendChild(capacidadeDiv);
         
         // Defesa
         const defesaDiv = document.createElement('div');
@@ -243,33 +310,28 @@ export function atualizarPersonagens() {
         cargaValoresDiv.className = 'atributo-valores';
         
         const cargaLabel = document.createElement('span');
-        cargaLabel.textContent = '⚡ Carga:';
+        cargaLabel.textContent = '⚡ Cargas:';
         cargaValoresDiv.appendChild(cargaLabel);
-        
-        const cargaValor = document.createElement('span');
-        cargaValor.className = 'valor';
-        cargaValor.textContent = personagem.carga;
-        cargaValoresDiv.appendChild(cargaValor);
-        
-        cargaDiv.appendChild(cargaValoresDiv);
-        
-        // Botões de carga
-        const cargaBotoesDiv = document.createElement('div');
-        cargaBotoesDiv.className = 'atributo-botoes';
         
         const btnDiminuirCarga = document.createElement('button');
         btnDiminuirCarga.textContent = '-1';
         btnDiminuirCarga.className = 'btn-carga';
         btnDiminuirCarga.onclick = () => window.ajustarCarga(index, -1);
-        cargaBotoesDiv.appendChild(btnDiminuirCarga);
+        cargaValoresDiv.appendChild(btnDiminuirCarga);
+        
+        const cargaValor = document.createElement('span');
+        cargaValor.className = 'valor';
+        cargaValor.style.margin = '0 8px';
+        cargaValor.textContent = `(${personagem.carga})`;
+        cargaValoresDiv.appendChild(cargaValor);
         
         const btnAumentarCarga = document.createElement('button');
         btnAumentarCarga.textContent = '+1';
         btnAumentarCarga.className = 'btn-carga';
         btnAumentarCarga.onclick = () => window.ajustarCarga(index, 1);
-        cargaBotoesDiv.appendChild(btnAumentarCarga);
+        cargaValoresDiv.appendChild(btnAumentarCarga);
         
-        cargaDiv.appendChild(cargaBotoesDiv);
+        cargaDiv.appendChild(cargaValoresDiv);
         body.appendChild(cargaDiv);
         
         div.appendChild(body);
@@ -388,8 +450,11 @@ export function atualizarEdicaoPersonagens() {
             <p>❤️ Vida: <input type="number" value="${personagem.vida}" onchange="window.editarAtributo(${index}, 'vida', this.value)"></p>
             <p>🔮 Mana: <input type="number" value="${personagem.mana}" onchange="window.editarAtributo(${index}, 'mana', this.value)"></p>
             <p>🛡️ Defesa: <input type="number" value="${personagem.defesa}" onchange="window.editarAtributo(${index}, 'defesa', this.value)"></p>
-            <p>🪖 Armadura: <input type="number" value="${personagem.armadura}" onchange="window.editarAtributo(${index}, 'armadura', this.value)"></p>
+            <p>🛡️ Capacidade (%): <input type="number" value="${personagem.capacidade}" min="0" max="100" onchange="window.editarAtributo(${index}, 'capacidade', this.value)"></p>
+            <p>🛡️ Armadura Inicial: <input type="number" value="${personagem.armaduraFixa}" min="0" onchange="window.editarAtributo(${index}, 'armaduraFixa', this.value)"></p>
             <p>🔄 Regen: <input type="number" value="${personagem.regen}" onchange="window.editarAtributo(${index}, 'regen', this.value)"></p>
+            <p>🛡️ Armadura: ${personagem.armadura} (${personagem.capacidade}% da vida)</p>
+            <p>🛡️ Armadura Inicial Restante: ${personagem.armaduraFixa}/${personagem.armaduraFixaInicial}</p>
         `;
         personagensGrid.appendChild(div);
     });
@@ -398,13 +463,28 @@ export function atualizarEdicaoPersonagens() {
 // Função para editar atributos
 export function editarAtributo(index, atributo, valor) {
     // Salvar estado atual antes de editar
-    salvarEstadoAtual();
+    salvarEstadoAtual(index);
     
     const personagem = window.personagens[index];
+    const valorAntigo = personagem[atributo];
     personagem[atributo] = parseInt(valor);
+
+    // Recalcular armadura se a vida ou capacidade foram alteradas
+    if (atributo === 'vida' || atributo === 'capacidade') {
+        const novaArmadura = Math.floor(personagem.vida * (personagem.capacidade / 100));
+        personagem.armadura = novaArmadura;
+        personagem.armaduraInicial = novaArmadura;
+    }
+
     atualizarPersonagens();
     atualizarEdicaoPersonagens();
-    adicionarHistorico(`Atributo ${atributo} de ${personagem.nome} alterado para ${valor}.`);
+    
+    // Mensagem específica para alterações de vida ou capacidade que afetam a armadura
+    if (atributo === 'vida' || atributo === 'capacidade') {
+        adicionarHistorico(`${atributo.charAt(0).toUpperCase() + atributo.slice(1)} de ${personagem.nome} alterada de ${valorAntigo} para ${valor}. Nova armadura: ${personagem.armadura}.`);
+    } else {
+        adicionarHistorico(`Atributo ${atributo} de ${personagem.nome} alterado para ${valor}.`);
+    }
 }
 
 // Função para ajustar cargas
@@ -607,6 +687,7 @@ function processarDano(index) {
     
     // Aplicar dano o número de vezes especificado
     let danoTotal = 0;
+    let danoArmaduraFixaTotal = 0;
     let danoArmaduraTotal = 0;
     let danoVidaTotal = 0;
     
@@ -618,22 +699,31 @@ function processarDano(index) {
             danoVidaTotal += danoVidaAtual;
             danoTotal += valorDano;
         } else {
-            if (personagem.armadura > 0) {
-                const danoArmadura = Math.min(valorDano, personagem.armadura);
+            let danoRestante = valorDano;
+
+            // Primeiro, reduzir a armadura inicial
+            if (personagem.armaduraFixa > 0) {
+                const danoArmaduraFixa = Math.min(danoRestante, personagem.armaduraFixa);
+                personagem.armaduraFixa -= danoArmaduraFixa;
+                danoArmaduraFixaTotal += danoArmaduraFixa;
+                danoRestante -= danoArmaduraFixa;
+            }
+            
+            // Se ainda houver dano, reduzir a armadura normal
+            if (danoRestante > 0 && personagem.armadura > 0) {
+                const danoArmadura = Math.min(danoRestante, personagem.armadura);
                 personagem.armadura -= danoArmadura;
                 danoArmaduraTotal += danoArmadura;
-                
-                const danoRestante = valorDano - danoArmadura;
-                if (danoRestante > 0) {
-                    const danoVidaAtual = Math.min(danoRestante, personagem.vida);
-                    personagem.vida = Math.max(0, personagem.vida - danoRestante);
-                    danoVidaTotal += danoVidaAtual;
-                }
-            } else {
-                const danoVidaAtual = Math.min(valorDano, personagem.vida);
-                personagem.vida = Math.max(0, personagem.vida - valorDano);
+                danoRestante -= danoArmadura;
+            }
+            
+            // Se ainda houver dano, aplicar à vida
+            if (danoRestante > 0) {
+                const danoVidaAtual = Math.min(danoRestante, personagem.vida);
+                personagem.vida = Math.max(0, personagem.vida - danoRestante);
                 danoVidaTotal += danoVidaAtual;
             }
+            
             danoTotal += valorDano;
         }
         
@@ -657,6 +747,10 @@ function processarDano(index) {
     
     if (danoVerdadeiro) {
         mensagem += ' (Dano Verdadeiro)';
+    }
+    
+    if (danoArmaduraFixaTotal > 0) {
+        mensagem += `. Armadura Inicial -${danoArmaduraFixaTotal}`;
     }
     
     if (danoArmaduraTotal > 0) {
@@ -724,16 +818,36 @@ export function confirmarDeletar(index) {
 // Função para resetar personagem
 export function resetarPersonagem(index) {
     // Salvar estado atual antes de resetar
-    salvarEstadoAtual();
+    salvarEstadoAtual(index);
     
     const personagem = window.personagens[index];
+    
+    // Restaurar valores básicos
     personagem.vida = personagem.vidaInicial;
     personagem.mana = personagem.manaInicial;
-    personagem.armadura = personagem.armaduraInicial;
+    
+    // Recalcular armadura baseada na vida inicial e capacidade
+    personagem.armadura = Math.floor(personagem.vidaInicial * (personagem.capacidade / 100));
+    personagem.armaduraInicial = personagem.armadura;
+    
+    // Resetar armadura inicial
+    personagem.armaduraFixa = personagem.armaduraFixaInicial;
+    
+    // Resetar carga
     personagem.carga = 0;
+    
+    // Atualizar interface
     atualizarPersonagens();
     atualizarEdicaoPersonagens();
-    adicionarHistorico(`Personagem ${personagem.nome} resetado.`);
+    
+    // Adicionar ao histórico
+    adicionarHistorico(
+        `Personagem ${personagem.nome} resetado.\n` +
+        `Vida: ${personagem.vida}/${personagem.vidaInicial}\n` +
+        `Mana: ${personagem.mana}/${personagem.manaInicial}\n` +
+        `Armadura (Capacidade): ${personagem.armadura} (${personagem.capacidade}%)\n` +
+        `Armadura Inicial: ${personagem.armaduraFixa}`
+    );
 }
 
 // Função para regenerar mana baseado na porcentagem de regeneração

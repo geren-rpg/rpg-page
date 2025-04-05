@@ -644,8 +644,14 @@ input[type="number"]:focus {
 
 .atributo-valores {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: var(--spacing-xs);
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+}
+
+.atributo-valores .valor {
+    min-width: 30px;
+    text-align: center;
 }
 
 /* Botões específicos */
@@ -862,6 +868,11 @@ input[type="number"]:focus {
 .btn-carga {
     background-color: #181818ad !important;
     transition: background-color 0.3s ease;
+    padding: 2px 8px !important;
+    min-width: 32px;
+    height: 24px;
+    font-size: 12px;
+    margin: 0 2px;
 }
 
 .btn-carga:hover {
