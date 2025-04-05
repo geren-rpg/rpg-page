@@ -450,7 +450,7 @@ export function atualizarEdicaoPersonagens() {
             <p>❤️ Vida: <input type="number" value="${personagem.vida}" onchange="window.editarAtributo(${index}, 'vida', this.value)"></p>
             <p>🔮 Mana: <input type="number" value="${personagem.mana}" onchange="window.editarAtributo(${index}, 'mana', this.value)"></p>
             <p>🛡️ Defesa: <input type="number" value="${personagem.defesa}" onchange="window.editarAtributo(${index}, 'defesa', this.value)"></p>
-            <p>🛡️ Capacidade (%): <input type="number" value="${personagem.capacidade}" min="0" max="100" onchange="window.editarAtributo(${index}, 'capacidade', this.value)"></p>
+            <p>🛡️ Capacidade (%): <input type="number" value="${personagem.capacidade}" min="0" onchange="window.editarAtributo(${index}, 'capacidade', this.value)"></p>
             <p>🛡️ Armadura Inicial: <input type="number" value="${personagem.armaduraFixa}" min="0" onchange="window.editarAtributo(${index}, 'armaduraFixa', this.value)"></p>
             <p>🔄 Regen: <input type="number" value="${personagem.regen}" onchange="window.editarAtributo(${index}, 'regen', this.value)"></p>
             <p>🛡️ Armadura: ${personagem.armadura} (${personagem.capacidade}% da vida)</p>
